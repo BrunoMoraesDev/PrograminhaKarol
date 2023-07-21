@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Karol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj": {}
+    "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Projects\\PrograminhaKarol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Karol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj": {
+    "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Projects\\PrograminhaKarol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Karol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj",
+        "projectUniqueName": "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Projects\\PrograminhaKarol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj",
         "projectName": "ControleDeBoletos",
-        "projectPath": "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Karol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj",
+        "projectPath": "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Projects\\PrograminhaKarol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj",
         "packagesPath": "C:\\Users\\morae\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Karol\\ControleDeBoletos\\ControleDeBoletos\\obj\\",
+        "outputPath": "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Projects\\PrograminhaKarol\\ControleDeBoletos\\ControleDeBoletos\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

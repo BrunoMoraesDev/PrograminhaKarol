@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3MdpD6URxCdPY7YcEx7r2zMduWJnPO0H5KQNftZeKRTFpTxq5PmHenaYMNenJDsHopEZgwh8Nv8H8b6o35/0bg==",
+  "dgSpecHash": "Cd8NfMUnxUZYbwgEF3MF1HtQeRhAdKaBlJXNkcjuJWBQpBQT6gh2cDwuFz3PiQtqAj8M6NdOiiCfVgsHgOqw4Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Karol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj",
+  "projectFilePath": "C:\\Users\\morae\\OneDrive\\Área de Trabalho\\Projects\\PrograminhaKarol\\ControleDeBoletos\\ControleDeBoletos\\ControleDeBoletos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\morae\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.19\\microsoft.data.sqlite.core.6.0.19.nupkg.sha512",
     "C:\\Users\\morae\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.19\\microsoft.entityframeworkcore.6.0.19.nupkg.sha512",

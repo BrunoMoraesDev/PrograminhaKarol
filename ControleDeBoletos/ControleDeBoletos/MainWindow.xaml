@@ -47,7 +47,7 @@
                             <DataGridTextColumn Header="Tipo" Width="2*" Binding="{Binding Tipo, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Descrição" Width="4*" Binding="{Binding Descricao, UpdateSourceTrigger=PropertyChanged}" />
                             <DataGridTextColumn Header="Valor" Width="2*" Binding="{Binding Valor, StringFormat=C2, ConverterCulture=pt-BR, UpdateSourceTrigger=PropertyChanged}" />
-                            <DataGridTemplateColumn Header="Emissão" Width="2*">
+                            <DataGridTemplateColumn Header="Emissão" Width="2*" SortMemberPath="Emissao">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Emissao, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" />
@@ -59,7 +59,7 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Vencimento" Width="2*">
+                            <DataGridTemplateColumn Header="Vencimento" Width="2*" SortMemberPath="Vencimento">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Vencimento, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" />
