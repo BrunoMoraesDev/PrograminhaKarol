@@ -76,11 +76,16 @@ namespace ControleDeBoletos.Data.Repositories
             return entities;
         }
 
-        public IQueryable<Boleto> GetFilteredBoletos(string? descricao, TiposSituacao situacao, int? dia, int? mes, int? ano)
+        public IQueryable<Boleto> GetFilteredBoletos(string? descricao, TipoBoleto? tipo, TiposSituacao situacao, int? diaVencimento, int? mesVencimento, int? anoVencimento, int? diaEmissao, int? mesEmissao, int? anoEmissao)
         {
             var query = _context.Boleto
                 .Include(boleto => boleto.Tipo)
                 .AsQueryable();
+
+            if (tipo != null)
+            {
+                query = query.Where(boleto => boleto.TipoId == tipo.Id);
+            }
 
             switch (situacao)
             {
@@ -103,19 +108,34 @@ namespace ControleDeBoletos.Data.Repositories
                     break;
             }
 
-            if (dia.HasValue)
+            if (diaVencimento.HasValue)
             {
-                query = query.Where(boleto => boleto.Vencimento.Day == dia);
+                query = query.Where(boleto => boleto.Vencimento.Day == diaVencimento);
             }
 
-            if (mes.HasValue)
+            if (mesVencimento.HasValue)
             {
-                query = query.Where(boleto => boleto.Vencimento.Month == mes);
+                query = query.Where(boleto => boleto.Vencimento.Month == mesVencimento);
             }
 
-            if (ano.HasValue)
+            if (anoVencimento.HasValue)
             {
-                query = query.Where(boleto => boleto.Vencimento.Year == ano);
+                query = query.Where(boleto => boleto.Vencimento.Year == anoVencimento);
+            }
+
+            if (diaEmissao.HasValue)
+            {
+                query = query.Where(boleto => boleto.Emissao.Day == diaEmissao);
+            }
+
+            if (mesEmissao.HasValue)
+            {
+                query = query.Where(boleto => boleto.Emissao.Month == mesEmissao);
+            }
+
+            if (anoEmissao.HasValue)
+            {
+                query = query.Where(boleto => boleto.Emissao.Year == anoEmissao);
             }
 
             if (!string.IsNullOrEmpty(descricao))

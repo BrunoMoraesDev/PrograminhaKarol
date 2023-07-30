@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControleDeBoletos"
         mc:Ignorable="d"
-        Title="MainWindow" Height="588" Width="1220">
+        Title="MainWindow" Height="619" Width="1498">
     <Grid>
         <TabControl>
             <TabItem x:Name="tabCadastroBoleto" Header="Cadastro e Edição de Boletos">
@@ -41,7 +41,7 @@
             </TabItem>
             <TabItem x:Name="tabBuscaFiltroBoleto" Header="Busca e Filtragem de Boletos">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridBoletosFiltrados" Margin="0,133,0,65" AlternatingRowBackground="LightGray" CanUserAddRows="False" AutoGenerateColumns="False" CellEditEnding="dataGridBoletosFiltrados_CellEditEnding" ItemsSource="{Binding Boleto}">
+                    <DataGrid x:Name="dataGridBoletosFiltrados" Margin="0,133,0,53" AlternatingRowBackground="LightGray" CanUserAddRows="False" AutoGenerateColumns="False" CellEditEnding="dataGridBoletosFiltrados_CellEditEnding" SelectionChanged="dataGridBoletosFiltrados_SelectionChanged" ItemsSource="{Binding Boleto}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Width="*" Binding="{Binding Id}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Tipo" Width="2*" Binding="{Binding Tipo, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
@@ -76,28 +76,39 @@
                             <DataGridTextColumn Header="Última Alteração" Width="2*" Binding="{Binding DataAlteracao, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Label Content="Mês" HorizontalAlignment="Left" Margin="729,63,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label Content="Dia" HorizontalAlignment="Left" Margin="580,63,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label Content="Ano" HorizontalAlignment="Left" Margin="878,63,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <ComboBox x:Name="comboBoxFiltroDia" HorizontalAlignment="Left" Margin="539,94,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <ComboBox x:Name="comboBoxFiltroMes" HorizontalAlignment="Left" Margin="688,94,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <ComboBox x:Name="comboBoxFiltroAno" HorizontalAlignment="Left" Margin="837,94,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <Label Content="/" HorizontalAlignment="Left" Margin="813,81,0,0" VerticalAlignment="Top" FontSize="22"/>
-                    <Label Content="/" HorizontalAlignment="Left" Margin="664,81,0,0" VerticalAlignment="Top" FontSize="22"/>
-                    <Label Content="Situação" HorizontalAlignment="Left" Margin="403,63,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <ComboBox x:Name="comboBoxFiltroSituacao" HorizontalAlignment="Left" Margin="370,94,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <TextBox x:Name="txtBoxFiltroDescricao" HorizontalAlignment="Left" Margin="56,93,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="262" Height="24"/>
-                    <Label Content="Busca de Boletos" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
-                    <Label Content="Descrição" HorizontalAlignment="Left" Margin="152,63,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label x:Name="labelSomaTotal" Content="Soma total :" HorizontalAlignment="Left" Margin="161,0,0,7" VerticalAlignment="Bottom" Width="135" FontSize="22"/>
-                    <Label x:Name="labelSomaAPagar" Content="Soma a pagar :" HorizontalAlignment="Left" Margin="452,0,0,7" VerticalAlignment="Bottom" FontSize="22"/>
-                    <TextBlock x:Name="txtBlockSomaTotal" HorizontalAlignment="Left" Margin="296,0,0,10" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="151" FontSize="18"/>
-                    <TextBlock x:Name="txtBlockSomaAPagar" HorizontalAlignment="Left" Margin="613,0,0,13" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="132" FontSize="18"/>
-                    <Label x:Name="labelSomaVencida" Content="Soma vencida :" HorizontalAlignment="Left" Margin="750,0,0,7" VerticalAlignment="Bottom" FontSize="22"/>
-                    <TextBlock x:Name="txtBlockSomaVencida" HorizontalAlignment="Left" Margin="911,0,0,13" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="119" FontSize="18"/>
-                    <Button x:Name="btnBuscarBoletosFiltrados" Content="Buscar" HorizontalAlignment="Left" Margin="994,32,0,0" VerticalAlignment="Top" Width="210" Height="88" FontSize="24" Click="btnBuscarBoletosFiltrados_Click"/>
-                    <Button x:Name="btnSalvarAlteracoesBoletosFiltrados" Content="Salvar Alterações" HorizontalAlignment="Right" Margin="1025,0,0,4" VerticalAlignment="Bottom" Height="44" Width="179" FontSize="18" Click="btnSalvarAlteracoesBoletosFiltrados_Click"/>
+                    <Label Content="Mês" HorizontalAlignment="Left" Margin="730,38,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Label Content="Dia" HorizontalAlignment="Left" Margin="581,38,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Label Content="Ano" HorizontalAlignment="Left" Margin="879,38,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <ComboBox x:Name="comboBoxFiltroDia" HorizontalAlignment="Left" Margin="539,106,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                    <ComboBox x:Name="comboBoxFiltroMes" HorizontalAlignment="Left" Margin="688,106,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                    <ComboBox x:Name="comboBoxFiltroAno" HorizontalAlignment="Left" Margin="837,106,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                    <Label Content="/" HorizontalAlignment="Left" Margin="813,94,0,0" VerticalAlignment="Top" FontSize="22"/>
+                    <Label Content="/" HorizontalAlignment="Left" Margin="664,93,0,0" VerticalAlignment="Top" FontSize="22"/>
+                    <Label Content="Situação" HorizontalAlignment="Left" Margin="356,80,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <ComboBox x:Name="comboBoxFiltroSituacao" HorizontalAlignment="Left" Margin="327,106,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                    <TextBox x:Name="txtBoxFiltroDescricao" HorizontalAlignment="Left" Margin="10,104,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193" Height="24"/>
+                    <Label Content="Busca de Boletos" HorizontalAlignment="Left" Margin="519,0,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
+                    <Label Content="Descrição" HorizontalAlignment="Left" Margin="72,75,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Label x:Name="labelSomaTotal" Content="Soma total :" HorizontalAlignment="Left" Margin="161,0,0,-1" VerticalAlignment="Bottom" Width="116" FontSize="20"/>
+                    <Label x:Name="labelSomaAPagar" Content="Soma a pagar :" HorizontalAlignment="Left" Margin="433,0,0,-1" VerticalAlignment="Bottom" FontSize="20"/>
+                    <TextBlock x:Name="txtBlockSomaTotal" HorizontalAlignment="Left" Margin="277,0,0,9" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="151" FontSize="16"/>
+                    <TextBlock x:Name="txtBlockSomaAPagar" HorizontalAlignment="Left" Margin="584,0,0,9" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="132" FontSize="16"/>
+                    <Label x:Name="labelSomaVencida" Content="Soma vencida :" HorizontalAlignment="Left" Margin="721,0,0,0" VerticalAlignment="Bottom" FontSize="20"/>
+                    <TextBlock x:Name="txtBlockSomaVencida" HorizontalAlignment="Left" Margin="868,0,0,9" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="119" FontSize="16"/>
+                    <Button x:Name="btnBuscarBoletosFiltrados" Content="Buscar" HorizontalAlignment="Left" Margin="970,68,0,0" VerticalAlignment="Top" Width="120" Height="57" FontSize="24" Click="btnBuscarBoletosFiltrados_Click"/>
+                    <Button x:Name="btnSalvarAlteracoesBoletosFiltrados" Content="Salvar Alterações" HorizontalAlignment="Right" Margin="0,0,0,4" VerticalAlignment="Bottom" Height="44" Width="161" FontSize="18" Click="btnSalvarAlteracoesBoletosFiltrados_Click"/>
                     <Button x:Name="btnApagarBoletosFiltradosSelecionados" Content="Apagar Selecionados" HorizontalAlignment="Left" Margin="10,0,0,4" VerticalAlignment="Bottom" Height="42" Width="134" FontSize="14" Click="btnApagarBoletosFiltradosSelecionados_Click"/>
+                    <ComboBox x:Name="comboBoxFiltroDiaEmissao" HorizontalAlignment="Left" Margin="539,72,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                    <ComboBox x:Name="comboBoxFiltroMesEmissao" HorizontalAlignment="Left" Margin="688,72,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                    <ComboBox x:Name="comboBoxFiltroAnoEmissao" HorizontalAlignment="Left" Margin="837,72,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                    <Label Content="/" HorizontalAlignment="Left" Margin="664,63,0,0" VerticalAlignment="Top" FontSize="22"/>
+                    <Label Content="/" HorizontalAlignment="Left" Margin="813,61,0,0" VerticalAlignment="Top" FontSize="22"/>
+                    <Label Content="Emissão" HorizontalAlignment="Left" Margin="481,68,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Label Content="Vencimento" HorizontalAlignment="Left" Margin="458,102,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Label x:Name="labelSomaSelecionada" Content="Soma selecionada:" HorizontalAlignment="Left" Margin="992,0,0,-1" VerticalAlignment="Bottom" FontSize="20"/>
+                    <TextBlock x:Name="txtBlockSomaSelecionada" HorizontalAlignment="Left" Margin="1170,0,0,9" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="119" FontSize="16"/>
+                    <Label Content="Tipo/Categoria" HorizontalAlignment="Left" Margin="214,80,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <ComboBox x:Name="comboBoxFiltroCategoria" HorizontalAlignment="Left" Margin="208,106,0,0" VerticalAlignment="Top" Width="114" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabCadastroCategoriaBoleto" HorizontalAlignment="Center" Height="20" Header="Cadastro de Categoria de Boleto" VerticalAlignment="Top" Width="185" Margin="0,-1,0,0">

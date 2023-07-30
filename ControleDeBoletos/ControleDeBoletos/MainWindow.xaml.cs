@@ -41,31 +41,42 @@ namespace ControleDeBoletos
 
         private void PreencherComboBoxFiltrosBuscaBoletos()
         {
-            comboBoxFiltroDia.ItemsSource = new ItemComboBox<int?>[]
+            PreencherComboBoxsTipoBoleto();
+
+            ItemComboBox<int?>[] diasDoMesArray = new ItemComboBox<int?>[]
             {
                 new ItemComboBox<int?>(string.Empty, null), new ItemComboBox<int?>("1", 1), new ItemComboBox<int?>("2", 2), new ItemComboBox<int?>("3", 3), new ItemComboBox<int?>("4", 4), new ItemComboBox<int?>("5", 5), new ItemComboBox<int?>("6", 6), new ItemComboBox<int?>("7", 7), new ItemComboBox<int?>("8", 8), new ItemComboBox<int?>("9", 9), new ItemComboBox<int?>("10", 10), new ItemComboBox<int?>("11", 11), new ItemComboBox<int?>("12", 12), new ItemComboBox<int?>("13", 13), new ItemComboBox<int?>("14", 14), new ItemComboBox<int?>("15", 15), new ItemComboBox<int?>("16", 16), new ItemComboBox<int?>("17", 17), new ItemComboBox<int?>("18", 18), new ItemComboBox<int?>("19", 19), new ItemComboBox<int?>("20", 20), new ItemComboBox<int?>("21", 21), new ItemComboBox<int?>("22", 22), new ItemComboBox<int?>("23", 23), new ItemComboBox<int?>("24", 24), new ItemComboBox<int?>("25", 25), new ItemComboBox<int?>("26", 26), new ItemComboBox<int?>("27", 27), new ItemComboBox<int?>("28", 28), new ItemComboBox<int?>("29", 29), new ItemComboBox<int?>("30", 30), new ItemComboBox<int?>("31", 31)
             };
 
-            comboBoxFiltroMes.ItemsSource = new ItemComboBox<int?>[]
+            ItemComboBox<int?>[] mesesDoAnoArray = new ItemComboBox<int?>[]
             {
                 new ItemComboBox<int?>(string.Empty, null), new ItemComboBox<int?>("1", 1), new ItemComboBox<int?>("2", 2), new ItemComboBox<int?>("3", 3), new ItemComboBox<int?>("4", 4), new ItemComboBox<int?>("5", 5), new ItemComboBox<int?>("6", 6), new ItemComboBox<int?>("7", 7), new ItemComboBox<int?>("8", 8), new ItemComboBox<int?>("9", 9), new ItemComboBox<int?>("10", 10), new ItemComboBox<int?>("11", 11), new ItemComboBox<int?>("12", 12)
             };
 
-            comboBoxFiltroAno.ItemsSource = new ItemComboBox<int?>[]
+            ItemComboBox<int?>[] anosArray = new ItemComboBox<int?>[]
             {
                 new ItemComboBox<int?>(string.Empty, null), new ItemComboBox<int?>("2022", 2022), new ItemComboBox<int?>("2023", 2023), new ItemComboBox<int?>("2024", 2024), new ItemComboBox<int?>("2025", 2025), new ItemComboBox<int?>("2026", 2026), new ItemComboBox<int?>("2027", 2027), new ItemComboBox<int?>("2028", 2028), new ItemComboBox<int?>("2029", 2029), new ItemComboBox<int?>("2030", 2030), new ItemComboBox<int?>("2031", 2031), new ItemComboBox<int?>("2032", 2032), new ItemComboBox<int?>("2033", 2033)
             };
 
-            comboBoxFiltroSituacao.ItemsSource = new ItemComboBox<TiposSituacao>[]
+            ItemComboBox<TiposSituacao>[] situacoesArray = new ItemComboBox<TiposSituacao>[]
             {
                 new ItemComboBox<TiposSituacao>("Todos", TiposSituacao.TODOS), new ItemComboBox<TiposSituacao>("Pagos", TiposSituacao.PAGOS), new ItemComboBox<TiposSituacao>("Pendentes", TiposSituacao.PENDENTES), new ItemComboBox<TiposSituacao>("Vencidos", TiposSituacao.VENCIDOS)
             };
+
+            comboBoxFiltroDia.ItemsSource = diasDoMesArray;
+            comboBoxFiltroMes.ItemsSource = mesesDoAnoArray;
+            comboBoxFiltroAno.ItemsSource = anosArray;
+
+            comboBoxFiltroDiaEmissao.ItemsSource = diasDoMesArray;
+            comboBoxFiltroMesEmissao.ItemsSource = mesesDoAnoArray;
+            comboBoxFiltroAnoEmissao.ItemsSource = anosArray;
+
+            comboBoxFiltroSituacao.ItemsSource = situacoesArray;
         }
 
         private void PreencherComboBoxCadastroBoletos()
         {
-            IEnumerable<TipoBoleto> tiposBoleto = _tipoBoletoRepository.GetAll();
-            comboBoxTipoCadastroBoleto.ItemsSource = tiposBoleto.ToList();
+            PreencherComboBoxsTipoBoleto();
 
             comboBoxParcelaCadastroBoleto.ItemsSource = new ItemComboBox<TiposPeriodoParcela>[]
             {
@@ -91,9 +102,19 @@ namespace ControleDeBoletos
             _tipoBoletoRepository.Add(tipo);
 
             txtBoxNomeCadastroCategoria.Clear();
+            PreencherComboBoxsTipoBoleto();
+        }
 
+        private void PreencherComboBoxsTipoBoleto()
+        {
             IEnumerable<TipoBoleto> tiposBoleto = _tipoBoletoRepository.GetAll();
             comboBoxTipoCadastroBoleto.ItemsSource = tiposBoleto.ToList();
+
+            List<ItemComboBox<TipoBoleto>> itensTipoBoleto = tiposBoleto.Select(tipoBoleto => new ItemComboBox<TipoBoleto>(tipoBoleto.Descricao, tipoBoleto)).ToList();
+            itensTipoBoleto.Insert(0, new ItemComboBox<TipoBoleto>(string.Empty, null));
+            comboBoxFiltroCategoria.ItemsSource = itensTipoBoleto.ToList();
+
+            comboBoxFiltroCategoria.SelectedIndex = 0;
         }
 
         private void btnAtualizarQuadroCategoria_Click(object sender, RoutedEventArgs e)
@@ -285,12 +306,20 @@ namespace ControleDeBoletos
         private void btnBuscarBoletosFiltrados_Click(object sender, RoutedEventArgs e)
         {
             string? descricao = txtBoxFiltroDescricao.Text;
-            ItemComboBox<TiposSituacao> tipoSituacaoItemComboBox = (ItemComboBox<TiposSituacao>)comboBoxFiltroSituacao.SelectedItem;
-            ItemComboBox<int?> diaItemComboBox = (ItemComboBox<int?>)comboBoxFiltroDia.SelectedItem;
-            ItemComboBox<int?> mesItemComboBox = (ItemComboBox<int?>)comboBoxFiltroMes.SelectedItem;
-            ItemComboBox<int?> anoItemComboBox = (ItemComboBox<int?>)comboBoxFiltroAno.SelectedItem;
 
-            List<Boleto> listaBoletos = _boletoRepository.GetFilteredBoletos(descricao, tipoSituacaoItemComboBox.Valor, diaItemComboBox.Valor, mesItemComboBox.Valor, anoItemComboBox.Valor).ToList();
+            ItemComboBox<TiposSituacao> tipoSituacaoItemComboBox = (ItemComboBox<TiposSituacao>)comboBoxFiltroSituacao.SelectedItem;
+
+            ItemComboBox<TipoBoleto> itemTipoBoleto = (ItemComboBox<TipoBoleto>)comboBoxFiltroCategoria.SelectedItem;
+
+            ItemComboBox<int?> diaItemComboBoxVencimento = (ItemComboBox<int?>)comboBoxFiltroDia.SelectedItem;
+            ItemComboBox<int?> mesItemComboBoxVencimento = (ItemComboBox<int?>)comboBoxFiltroMes.SelectedItem;
+            ItemComboBox<int?> anoItemComboBoxVencimento = (ItemComboBox<int?>)comboBoxFiltroAno.SelectedItem;
+
+            ItemComboBox<int?> diaItemComboBoxEmissao = (ItemComboBox<int?>)comboBoxFiltroDiaEmissao.SelectedItem;
+            ItemComboBox<int?> mesItemComboBoxEmissao = (ItemComboBox<int?>)comboBoxFiltroMesEmissao.SelectedItem;
+            ItemComboBox<int?> anoItemComboBoxEmissao = (ItemComboBox<int?>)comboBoxFiltroAnoEmissao.SelectedItem;
+
+            List<Boleto> listaBoletos = _boletoRepository.GetFilteredBoletos(descricao, itemTipoBoleto.Valor, tipoSituacaoItemComboBox.Valor, diaItemComboBoxVencimento.Valor, mesItemComboBoxVencimento.Valor, anoItemComboBoxVencimento.Valor, diaItemComboBoxEmissao.Valor, mesItemComboBoxEmissao.Valor, anoItemComboBoxEmissao.Valor).ToList();
 
             BoletosFiltrados = new ObservableCollection<Boleto>(listaBoletos);
 
@@ -315,6 +344,17 @@ namespace ControleDeBoletos
 
                 AtualizarSomasDeBoletosFiltrados();
             }
+        }
+
+        private void dataGridBoletosFiltrados_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            decimal soma = 0;
+            foreach (Boleto boleto in dataGridBoletosFiltrados.SelectedItems)
+            {
+                soma += boleto.Valor;
+            }
+
+            txtBlockSomaSelecionada.Text = soma == 0 ? "-----" : $"R$ {soma}";
         }
 
         private void AtualizarSomasDeBoletosFiltrados()
