@@ -101,7 +101,7 @@ namespace ControleDeBoletos.Data.Repositories
                     break;
 
                 case TiposSituacao.VENCIDOS:
-                    query = query.Where(boleto => boleto.Situacao == false && boleto.Vencimento.Date < DateTime.Now.Date);
+                    query = query.Where(boleto => boleto.Situacao == false && boleto.Vencimento.Date <= DateTime.Now.Date);
                     break;
 
                 default:
