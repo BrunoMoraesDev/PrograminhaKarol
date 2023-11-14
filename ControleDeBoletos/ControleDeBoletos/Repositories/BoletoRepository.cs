@@ -1,6 +1,8 @@
 ﻿using ControleDeBoletos.Data.DbContexts;
 using ControleDeBoletos.Enums;
 using ControleDeBoletos.Models;
+using ControleDeBoletos.ViewModels;
+using ControleDeBoletos.ViewModels.TotalPorPeriodoViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -144,6 +146,43 @@ namespace ControleDeBoletos.Data.Repositories
             }
 
             return query;
+        }
+
+        public IEnumerable<BoletosTotaisPorDiaTotalPorPeriodoViewModel> BuscarBoletosTotaisPorPeriodo(IEnumerable<TipoBoletoTotalPorPeriodoViewModel> tiposSelecionados, DateTime? dataInicial, DateTime? dataFinal)
+        {
+            var query = _context.Boleto
+                .Include(boleto => boleto.Tipo)
+                .AsQueryable();
+
+            if (tiposSelecionados.Count() > 0)
+            {
+                query = query.Where(boleto => tiposSelecionados.Select(tipo => tipo.Id).Contains(boleto.TipoId));
+            }
+
+            if (dataInicial.HasValue && dataFinal.HasValue)
+            {
+                query = query.Where(boleto => boleto.Vencimento >= dataInicial && boleto.Vencimento <= dataFinal);
+            }
+            else if (dataInicial.HasValue)
+            {
+                query = query.Where(boleto => boleto.Vencimento >= dataInicial);
+            }
+            else if (dataFinal.HasValue)
+            {
+                query = query.Where(boleto => boleto.Vencimento <= dataFinal);
+            }
+
+            IEnumerable<Boleto> boletosFiltrados = query.ToList();
+
+            IEnumerable<BoletosTotaisPorDiaTotalPorPeriodoViewModel> boletosAgrupados = boletosFiltrados
+            .GroupBy(boleto => boleto.Vencimento)
+            .Select(grupo => new BoletosTotaisPorDiaTotalPorPeriodoViewModel
+            {
+                DataVencimento = grupo.Key,
+                ValorTotal = grupo.Sum(boleto => boleto.Valor)
+            });
+
+            return boletosAgrupados.OrderBy(boleto => boleto.DataVencimento);
         }
     }
 }

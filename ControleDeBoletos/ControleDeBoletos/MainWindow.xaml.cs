@@ -1,6 +1,8 @@
 ﻿using ControleDeBoletos.Data.Repositories;
 using ControleDeBoletos.Enums;
 using ControleDeBoletos.Models;
+using ControleDeBoletos.ViewModels;
+using ControleDeBoletos.ViewModels.TotalPorPeriodoViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,7 +36,9 @@ namespace ControleDeBoletos
         {
             _boletoRepository = boletoRepository;
             _tipoBoletoRepository = tipoBoletoRepository;
+
             InitializeComponent();
+
             PreencherComboBoxCadastroBoletos();
             PreencherComboBoxFiltrosBuscaBoletos();
         }
@@ -122,11 +126,6 @@ namespace ControleDeBoletos
             IEnumerable<TipoBoleto> tiposBoleto = _tipoBoletoRepository.GetAll();
 
             listBoxQuadroCategoria.ItemsSource = tiposBoleto.ToList();
-        }
-
-        private void tabCadastroBoleto_Click(object sender, MouseButtonEventArgs e)
-        {
-            PreencherComboBoxCadastroBoletos();
         }
 
         private void btnSalvarCadastroBoleto_Click(object sender, RoutedEventArgs e)
@@ -381,6 +380,69 @@ namespace ControleDeBoletos
             foreach (var boleto in boletosParaRemover)
             {
                 BoletosFiltrados.Remove(boleto);
+            }
+        }
+
+        private void btnBuscarTotalPorPeriodo_Click(object sender, RoutedEventArgs e)
+        {
+            IEnumerable<TipoBoletoTotalPorPeriodoViewModel> tiposDeBoletosSelecionados = listBoxTotalPorPeriodo.Items
+                .OfType<TipoBoletoTotalPorPeriodoViewModel>()
+                .Where(item => item.EstaSelecionado)
+                .ToList();
+
+            DateTime? dataInicial = datePickDataInicialTotalPorPeriodo.SelectedDate;
+            DateTime? dataFinal = datePickDataFinalTotalPorPeriodo.SelectedDate;
+
+            IEnumerable<BoletosTotaisPorDiaTotalPorPeriodoViewModel> valoresDeBoletoTotaisPorPeriodo = _boletoRepository.BuscarBoletosTotaisPorPeriodo(tiposDeBoletosSelecionados, dataInicial, dataFinal).ToList();
+
+            dataGridTotalPorPeriodo.ItemsSource = valoresDeBoletoTotaisPorPeriodo;
+        }
+
+        private void tabControlMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(e.Source is TabControl)) return;
+
+            if (tabCadastroBoleto.IsSelected)
+            {
+                PreencherComboBoxCadastroBoletos();
+            }
+            else if (tabTotalPorPeriodo.IsSelected)
+            {
+                IEnumerable<TipoBoleto> todosTiposDeBoleto = _tipoBoletoRepository.GetAll();
+
+                IEnumerable<TipoBoletoTotalPorPeriodoViewModel> todosTiposDeBoletoViewModel = todosTiposDeBoleto.Select(boleto =>
+                new TipoBoletoTotalPorPeriodoViewModel()
+                {
+                    Id = boleto.Id,
+                    Descricao = boleto.Descricao,
+                    EstaSelecionado = true
+                });
+
+                listBoxTotalPorPeriodo.ItemsSource = todosTiposDeBoletoViewModel.ToList();
+            }
+        }
+
+        private void DatePicker_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Tab)
+            {
+                DatePicker? datePicker = sender as DatePicker;
+                if (datePicker == null) return;
+
+                string input = datePicker.Text;
+
+                if (input.Length == 8)
+                {
+                    string dataFormatada = input.Insert(2, "/").Insert(5, "/");
+                    datePicker.Text = dataFormatada;
+
+                    DateTime dataConvertida;
+                    if (DateTime.TryParseExact(dataFormatada, "dd/MM/yyyy",
+                        CultureInfo.InvariantCulture, DateTimeStyles.None, out dataConvertida))
+                    {
+                        datePicker.SelectedDate = dataConvertida;
+                    }
+                }
             }
         }
     }

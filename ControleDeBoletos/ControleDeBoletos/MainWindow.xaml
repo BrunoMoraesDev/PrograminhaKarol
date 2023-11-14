@@ -3,14 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ControleDeBoletos"
         mc:Ignorable="d"
         Title="MainWindow" Height="619" Width="1498">
     <Grid>
-        <TabControl>
+        <TabControl x:Name="tabControlMenu" SelectionChanged="tabControlMenu_SelectionChanged">
             <TabItem x:Name="tabCadastroBoleto" Header="Cadastro e Edição de Boletos">
                 <Grid Background="#FFE5E5E5">
-                    <Label Content="Cadastro e Edição de Boletos" HorizontalAlignment="Center" Margin="0,29,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" MouseLeftButtonDown="tabCadastroBoleto_Click" Height="45" Width="318"/>
+                    <Label Content="Cadastro e Edição de Boletos" HorizontalAlignment="Center" Margin="0,29,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" Height="45" Width="318"/>
                     <Label Content="Descrição/Empresa" HorizontalAlignment="Left" Margin="85,117,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="161"/>
                     <Label Content="Tipo/Categoria" HorizontalAlignment="Left" Margin="85,194,0,0" VerticalAlignment="Top" Height="35" Width="112"/>
                     <Label Content="Valor" HorizontalAlignment="Left" Margin="89,272,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="52"/>
@@ -30,8 +29,8 @@
                     </Button>
                     <Label Content="Emissão" HorizontalAlignment="Left" Margin="806,117,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="75"/>
                     <Label Content="Vencimento" HorizontalAlignment="Left" Margin="806,194,0,0" VerticalAlignment="Top" FontSize="14" Height="39" Width="104"/>
-                    <DatePicker x:Name="datePickEmissaoCadastroBoleto" HorizontalAlignment="Left" Margin="941,119,0,0" VerticalAlignment="Top" TabIndex="4" Height="32" Width="174"/>
-                    <DatePicker x:Name="datePickVencimentoCadastroBoleto" HorizontalAlignment="Left" Margin="941,196,0,0" VerticalAlignment="Top" TabIndex="5" Height="32" Width="174"/>
+                    <DatePicker x:Name="datePickEmissaoCadastroBoleto" HorizontalAlignment="Left" Margin="941,119,0,0" VerticalAlignment="Top" TabIndex="4" Height="32" Width="174" KeyDown="DatePicker_KeyDown"/>
+                    <DatePicker x:Name="datePickVencimentoCadastroBoleto" HorizontalAlignment="Left" Margin="941,196,0,0" VerticalAlignment="Top" TabIndex="5" Height="32" Width="174" KeyDown="DatePicker_KeyDown"/>
                     <ComboBox x:Name="comboBoxTipoCadastroBoleto" HorizontalAlignment="Left" Margin="257,203,0,0" VerticalAlignment="Top" Width="149" ItemsSource="{Binding TipoBoleto}" DisplayMemberPath="Descricao" TabIndex="1" Height="31"/>
                     <ComboBox x:Name="comboBoxParcelaCadastroBoleto" HorizontalAlignment="Left" Margin="941,277,0,0" VerticalAlignment="Top" Width="174" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0" TabIndex="6" Height="29"/>
                     <Label Content="Parcelas" HorizontalAlignment="Left" Margin="806,272,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="75"/>
@@ -127,6 +126,29 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     <Button x:Name="btnAtualizarQuadroCategoria" Content="Mostrar categorias / Atualizar" HorizontalAlignment="Left" Margin="514,407,0,0" VerticalAlignment="Top" Height="39" Width="228" Click="btnAtualizarQuadroCategoria_Click" FontSize="14"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabTotalPorPeriodo" HorizontalAlignment="Center" Height="20" Header="Total por período" VerticalAlignment="Top" Width="185" Margin="0,-1,0,0">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridTotalPorPeriodo" d:ItemsSource="{d:SampleData ItemCount=5}" AlternatingRowBackground="LightGray" CanUserAddRows="False" AutoGenerateColumns="False" Margin="791,150,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data de Vencimento" Width="*" Binding="{Binding DataVencimento, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Total" Width="*" Binding="{Binding ValorTotal, StringFormat=C2, ConverterCulture=pt-BR}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Label Content="Data inicial" HorizontalAlignment="Left" Margin="949,42,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Label Content="Data final" HorizontalAlignment="Left" Margin="1136,42,0,0" VerticalAlignment="Top" FontSize="14"/>
+                    <Button x:Name="btnBuscarTotalPorPeriodo" Content="Buscar" HorizontalAlignment="Left" Margin="1300,66,0,0" VerticalAlignment="Top" Height="56" Width="126" Click="btnBuscarTotalPorPeriodo_Click"/>
+                    <ListBox x:Name="listBoxTotalPorPeriodo" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionMode="Multiple" Margin="554,150,746,10">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding EstaSelecionado, Mode=TwoWay}" Content="{Binding Descricao}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Label x:Name="labelTotalPorPeriodo" Content="Total por Período&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,9,0,0" VerticalAlignment="Top" Height="53" FontSize="24" FontWeight="Bold"/>
+                    <DatePicker x:Name="datePickDataInicialTotalPorPeriodo" HorizontalAlignment="Left" Margin="919,82,0,0" VerticalAlignment="Top" KeyDown="DatePicker_KeyDown"/>
+                    <DatePicker x:Name="datePickDataFinalTotalPorPeriodo" HorizontalAlignment="Left" Margin="1102,82,0,0" VerticalAlignment="Top" KeyDown="DatePicker_KeyDown"/>
                 </Grid>
             </TabItem>
         </TabControl>

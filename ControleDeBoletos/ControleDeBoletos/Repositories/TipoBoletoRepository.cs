@@ -17,7 +17,8 @@ namespace ControleDeBoletos.Data.Repositories
 
         public IEnumerable<TipoBoleto> GetAll()
         {
-            return _context.TipoBoleto.AsNoTracking();
+            return _context.TipoBoleto
+                .AsNoTracking();
         }
 
         public TipoBoleto? GetById(int id)
