@@ -25,12 +25,12 @@ namespace ControleDeBoletos.Data.Repositories
             _context.SaveChanges();
         }
 
-        public IEnumerable<Boleto> GetAll()
+        public IEnumerable<Boleto> BuscarTodos()
         {
             return _context.Boleto.AsNoTracking();
         }
 
-        public Boleto? GetById(int id)
+        public Boleto? BuscarPorId(int id)
         {
             return _context.Boleto
                 .AsNoTracking()
@@ -38,14 +38,14 @@ namespace ControleDeBoletos.Data.Repositories
                 .FirstOrDefault(boleto => boleto.Id == id);
         }
 
-        public Boleto Add(Boleto entity)
+        public Boleto Incluir(Boleto entity)
         {
             _context.Entry(entity).State = EntityState.Added;
             _context.SaveChanges();
             return entity;
         }
 
-        public IEnumerable<Boleto> Add(IEnumerable<Boleto> entities)
+        public IEnumerable<Boleto> Incluir(IEnumerable<Boleto> entities)
         {
             foreach (var boleto in entities)
             {
@@ -55,20 +55,20 @@ namespace ControleDeBoletos.Data.Repositories
             return entities;
         }
 
-        public Boleto Update(Boleto entity)
+        public Boleto Alterar(Boleto entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
             return entity;
         }
 
-        public void Delete(Boleto entity)
+        public void Excluir(Boleto entity)
         {
             _context.Entry(entity).State = EntityState.Deleted;
             _context.SaveChanges();
         }
 
-        public IEnumerable<Boleto> Delete(IEnumerable<Boleto> entities)
+        public IEnumerable<Boleto> Excluir(IEnumerable<Boleto> entities)
         {
             foreach (var boleto in entities)
             {
@@ -78,7 +78,7 @@ namespace ControleDeBoletos.Data.Repositories
             return entities;
         }
 
-        public IQueryable<Boleto> GetFilteredBoletos(string? descricao, TipoBoleto? tipo, TiposSituacao situacao, int? diaVencimento, int? mesVencimento, int? anoVencimento, int? diaEmissao, int? mesEmissao, int? anoEmissao)
+        public IQueryable<Boleto> BuscarBoletosFiltrados(string? descricao, TipoBoleto? tipo, TiposSituacao situacao, int? diaVencimento, int? mesVencimento, int? anoVencimento, int? diaEmissao, int? mesEmissao, int? anoEmissao)
         {
             var query = _context.Boleto
                 .Include(boleto => boleto.Tipo)
@@ -152,9 +152,10 @@ namespace ControleDeBoletos.Data.Repositories
         {
             var query = _context.Boleto
                 .Include(boleto => boleto.Tipo)
+                .Where(boleto => boleto.Situacao == false)
                 .AsQueryable();
 
-            if (tiposSelecionados.Count() > 0)
+            if (tiposSelecionados.Any())
             {
                 query = query.Where(boleto => tiposSelecionados.Select(tipo => tipo.Id).Contains(boleto.TipoId));
             }

@@ -1,24 +1,20 @@
 ﻿using ControleDeBoletos.Data.Repositories;
 using ControleDeBoletos.Enums;
 using ControleDeBoletos.Models;
+using ControleDeBoletos.Notifications;
 using ControleDeBoletos.ViewModels;
 using ControleDeBoletos.ViewModels.TotalPorPeriodoViewModels;
+using HandyControl.Data;
+using HandyControl.Tools;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ControleDeBoletos
 {
@@ -34,6 +30,8 @@ namespace ControleDeBoletos
 
         public MainWindow(BoletoRepository boletoRepository, TipoBoletoRepository tipoBoletoRepository)
         {
+            ConfigHelper.Instance.SetLang("pt-BR");
+
             _boletoRepository = boletoRepository;
             _tipoBoletoRepository = tipoBoletoRepository;
 
@@ -105,6 +103,8 @@ namespace ControleDeBoletos
 
             _tipoBoletoRepository.Add(tipo);
 
+            HandyControl.Controls.Notification.Show(new SalvoComSucessoNotification(), ShowAnimation.Fade, false);
+
             txtBoxNomeCadastroCategoria.Clear();
             PreencherComboBoxsTipoBoleto();
         }
@@ -151,11 +151,11 @@ namespace ControleDeBoletos
                         Vencimento = datePickVencimentoCadastroBoleto.SelectedDate.Value,
                         Situacao = checkBoxSituacaoCadastroBoleto.IsChecked.Value,
                     };
-                    _boletoRepository.Add(boleto);
+                    _boletoRepository.Incluir(boleto);
 
                     break;
                 case TiposPeriodoParcela.DIARIA:
-                    
+
                     for (int indice = 0; indice < numeroDeParcelas; indice++)
                     {
                         boletos.Add(new Boleto()
@@ -168,7 +168,7 @@ namespace ControleDeBoletos
                             Situacao = checkBoxSituacaoCadastroBoleto.IsChecked.Value,
                         });
                     }
-                    _boletoRepository.Add(boletos);
+                    _boletoRepository.Incluir(boletos);
 
                     break;
                 case TiposPeriodoParcela.SEMANAL:
@@ -185,7 +185,7 @@ namespace ControleDeBoletos
                             Situacao = checkBoxSituacaoCadastroBoleto.IsChecked.Value,
                         });
                     }
-                    _boletoRepository.Add(boletos);
+                    _boletoRepository.Incluir(boletos);
 
                     break;
                 case TiposPeriodoParcela.QUINZENAL:
@@ -202,7 +202,7 @@ namespace ControleDeBoletos
                             Situacao = checkBoxSituacaoCadastroBoleto.IsChecked.Value,
                         });
                     }
-                    _boletoRepository.Add(boletos);
+                    _boletoRepository.Incluir(boletos);
 
                     break;
                 case TiposPeriodoParcela.MENSAL:
@@ -219,12 +219,14 @@ namespace ControleDeBoletos
                             Situacao = checkBoxSituacaoCadastroBoleto.IsChecked.Value,
                         });
                     }
-                    _boletoRepository.Add(boletos);
+                    _boletoRepository.Incluir(boletos);
 
                     break;
                 default:
                     throw new NotImplementedException("Tipo de período de parcela não esperado pela aplicação");
             }
+
+            HandyControl.Controls.Notification.Show(new SalvoComSucessoNotification(), ShowAnimation.Fade, false);
 
             LimparCamposCadastro();
         }
@@ -281,7 +283,7 @@ namespace ControleDeBoletos
                     MessageBox.Show("Preencha o campo com o número de parcelas OU selecione o boleto como parcela única");
                     return false;
                 }
-                
+
                 if (!int.TryParse(txtBoxNumeroParcelasCadastroBoleto.Text, out _))
                 {
                     MessageBox.Show("Preencha o campo de número de parcelas somente com números inteiros OU selecione o boleto como parcela única");
@@ -318,7 +320,7 @@ namespace ControleDeBoletos
             ItemComboBox<int?> mesItemComboBoxEmissao = (ItemComboBox<int?>)comboBoxFiltroMesEmissao.SelectedItem;
             ItemComboBox<int?> anoItemComboBoxEmissao = (ItemComboBox<int?>)comboBoxFiltroAnoEmissao.SelectedItem;
 
-            List<Boleto> listaBoletos = _boletoRepository.GetFilteredBoletos(descricao, itemTipoBoleto.Valor, tipoSituacaoItemComboBox.Valor, diaItemComboBoxVencimento.Valor, mesItemComboBoxVencimento.Valor, anoItemComboBoxVencimento.Valor, diaItemComboBoxEmissao.Valor, mesItemComboBoxEmissao.Valor, anoItemComboBoxEmissao.Valor).ToList();
+            List<Boleto> listaBoletos = _boletoRepository.BuscarBoletosFiltrados(descricao, itemTipoBoleto.Valor, tipoSituacaoItemComboBox.Valor, diaItemComboBoxVencimento.Valor, mesItemComboBoxVencimento.Valor, anoItemComboBoxVencimento.Valor, diaItemComboBoxEmissao.Valor, mesItemComboBoxEmissao.Valor, anoItemComboBoxEmissao.Valor).ToList();
 
             BoletosFiltrados = new ObservableCollection<Boleto>(listaBoletos);
 
@@ -330,6 +332,7 @@ namespace ControleDeBoletos
         private void btnSalvarAlteracoesBoletosFiltrados_Click(object sender, RoutedEventArgs e)
         {
             _boletoRepository.Save();
+            HandyControl.Controls.Notification.Show(new SalvoComSucessoNotification(), ShowAnimation.Fade, false);
         }
 
         private async void dataGridBoletosFiltrados_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -375,7 +378,7 @@ namespace ControleDeBoletos
                 boletosParaRemover.Add(boletoDaLinha);
             }
 
-            _boletoRepository.Delete(boletosParaRemover);
+            _boletoRepository.Excluir(boletosParaRemover);
 
             foreach (var boleto in boletosParaRemover)
             {
