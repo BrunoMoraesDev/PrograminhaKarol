@@ -329,6 +329,14 @@ namespace ControleDeBoletos
             AtualizarSomasDeBoletosFiltrados();
         }
 
+        private void txtBoxFiltroDescricao_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnBuscarBoletosFiltrados_Click(sender, e);
+            }
+        }
+
         private void btnSalvarAlteracoesBoletosFiltrados_Click(object sender, RoutedEventArgs e)
         {
             _boletoRepository.Save();

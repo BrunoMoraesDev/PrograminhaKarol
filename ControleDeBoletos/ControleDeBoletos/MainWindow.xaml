@@ -85,7 +85,7 @@
                     <Label Content="/" HorizontalAlignment="Left" Margin="756,99,0,0" VerticalAlignment="Top" FontSize="22"/>
                     <Label Content="Situação" HorizontalAlignment="Left" Margin="404,66,0,0" VerticalAlignment="Top" FontSize="14"/>
                     <ComboBox x:Name="comboBoxFiltroSituacao" HorizontalAlignment="Left" Margin="381,101,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <TextBox x:Name="txtBoxFiltroDescricao" HorizontalAlignment="Left" Margin="21,98,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193" Height="24"/>
+                    <TextBox x:Name="txtBoxFiltroDescricao" KeyDown="txtBoxFiltroDescricao_KeyDown" HorizontalAlignment="Left" Margin="21,98,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193" Height="24"/>
                     <Label Content="Busca de Boletos" HorizontalAlignment="Left" Margin="676,3,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" Height="35"/>
                     <Label Content="Descrição" HorizontalAlignment="Left" Margin="77,66,0,0" VerticalAlignment="Top" FontSize="14"/>
                     <Label x:Name="labelSomaTotal" Content="Soma total :" HorizontalAlignment="Left" Margin="161,0,0,8" VerticalAlignment="Bottom" Width="93" FontSize="16"/>
