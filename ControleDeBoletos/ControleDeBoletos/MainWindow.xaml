@@ -70,6 +70,13 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Dias Vencido" Width="2*" Binding="{Binding DiasVencido}" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridCheckBoxColumn Header="Situação" Width="*" Binding="{Binding Situacao, UpdateSourceTrigger=PropertyChanged}" />
                             <DataGridTextColumn Header="Data de Cadastro" Width="2*" Binding="{Binding DataCadastro, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Última Alteração" Width="2*" Binding="{Binding DataAlteracao, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>

@@ -26,7 +26,7 @@ namespace ControleDeBoletos
         private BoletoRepository _boletoRepository { get; set; }
         private TipoBoletoRepository _tipoBoletoRepository { get; set; }
 
-        public ObservableCollection<Boleto> BoletosFiltrados { get; set; }
+        public ObservableCollection<BoletoFiltradoViewModel> BoletosFiltrados { get; set; }
 
         public MainWindow(BoletoRepository boletoRepository, TipoBoletoRepository tipoBoletoRepository)
         {
@@ -321,8 +321,22 @@ namespace ControleDeBoletos
             ItemComboBox<int?> anoItemComboBoxEmissao = (ItemComboBox<int?>)comboBoxFiltroAnoEmissao.SelectedItem;
 
             List<Boleto> listaBoletos = _boletoRepository.BuscarBoletosFiltrados(descricao, itemTipoBoleto.Valor, tipoSituacaoItemComboBox.Valor, diaItemComboBoxVencimento.Valor, mesItemComboBoxVencimento.Valor, anoItemComboBoxVencimento.Valor, diaItemComboBoxEmissao.Valor, mesItemComboBoxEmissao.Valor, anoItemComboBoxEmissao.Valor).ToList();
+            List<BoletoFiltradoViewModel> listaBoletosViewModel = listaBoletos.Select(boleto => new BoletoFiltradoViewModel()
+            {
+                Boleto = boleto,
+                Id = boleto.Id,
+                DataCadastro = boleto.DataCadastro,
+                DataAlteracao = boleto.DataAlteracao,
+                Descricao = boleto.Descricao,
+                TipoId = boleto.TipoId,
+                Valor = boleto.Valor,
+                Emissao = boleto.Emissao,
+                Vencimento = boleto.Vencimento,
+                Situacao = boleto.Situacao,
+                Tipo = boleto.Tipo,
+            }).ToList();
 
-            BoletosFiltrados = new ObservableCollection<Boleto>(listaBoletos);
+            BoletosFiltrados = new ObservableCollection<BoletoFiltradoViewModel>(listaBoletosViewModel);
 
             dataGridBoletosFiltrados.ItemsSource = BoletosFiltrados;
 
@@ -359,7 +373,7 @@ namespace ControleDeBoletos
         private void dataGridBoletosFiltrados_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             decimal soma = 0;
-            foreach (Boleto boleto in dataGridBoletosFiltrados.SelectedItems)
+            foreach (BoletoFiltradoViewModel boleto in dataGridBoletosFiltrados.SelectedItems)
             {
                 soma += boleto.Valor;
             }
@@ -378,17 +392,18 @@ namespace ControleDeBoletos
         {
             if (dataGridBoletosFiltrados.SelectedItems.Count == 0) return;
 
-            List<Boleto> boletosParaRemover = new();
+            List<BoletoFiltradoViewModel> boletosViewModelParaRemoverDaTela = new();
 
             foreach (var linha in dataGridBoletosFiltrados.SelectedItems)
             {
-                Boleto boletoDaLinha = (Boleto)linha;
-                boletosParaRemover.Add(boletoDaLinha);
+                BoletoFiltradoViewModel boletoDaLinha = (BoletoFiltradoViewModel)linha;
+                boletosViewModelParaRemoverDaTela.Add(boletoDaLinha);
             }
 
-            _boletoRepository.Excluir(boletosParaRemover);
+            Boleto[] boletosOriginaisParaApagar = boletosViewModelParaRemoverDaTela.Select(boletoViewModel => boletoViewModel.Boleto).ToArray();
+            _boletoRepository.Excluir(boletosOriginaisParaApagar);
 
-            foreach (var boleto in boletosParaRemover)
+            foreach (var boleto in boletosViewModelParaRemoverDaTela)
             {
                 BoletosFiltrados.Remove(boleto);
             }
