@@ -41,6 +41,28 @@ namespace ControleDeBoletos
             PreencherComboBoxFiltrosBuscaBoletos();
         }
 
+        private void AdaptiveSections_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var grid = (Grid)sender;
+            bool compact = grid.ActualWidth < 760;
+            grid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+            grid.ColumnDefinitions[1].Width = compact ? new GridLength(0) : new GridLength(2, GridUnitType.Star);
+            // Limit the upper section so the list/table below always has space.
+            grid.RowDefinitions[0].Height = compact ? GridLength.Auto : new GridLength(1, GridUnitType.Star);
+            grid.RowDefinitions[1].Height = compact ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
+            var first = (FrameworkElement)grid.Children[0];
+            first.MaxHeight = compact ? Math.Min(180, grid.ActualHeight * 0.45) : double.PositiveInfinity;
+            var second = grid.Children[1];
+            Grid.SetRow(second, compact ? 1 : 0);
+            Grid.SetColumn(second, compact ? 0 : 1);
+        }
+
+        private void SearchLayout_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            searchFiltersScroll.MaxHeight = Math.Min(250, e.NewSize.Height * 0.42);
+            searchSummaryScroll.MaxHeight = Math.Min(150, e.NewSize.Height * 0.28);
+        }
+
         private void PreencherComboBoxFiltrosBuscaBoletos()
         {
             PreencherComboBoxsTipoBoleto();
@@ -239,7 +261,7 @@ namespace ControleDeBoletos
             datePickEmissaoCadastroBoleto.SelectedDate = null;
             datePickVencimentoCadastroBoleto.SelectedDate = null;
             checkBoxSituacaoCadastroBoleto.IsChecked = false;
-            comboBoxParcelaCadastroBoleto.SelectedItem = null;
+            comboBoxParcelaCadastroBoleto.SelectedIndex = 0;
             txtBoxNumeroParcelasCadastroBoleto.Clear();
         }
 

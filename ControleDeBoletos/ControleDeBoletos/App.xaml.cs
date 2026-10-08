@@ -2,7 +2,9 @@
 using ControleDeBoletos.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Data.Sqlite;
 using System;
+using System.IO;
 using System.Windows;
 
 namespace ControleDeBoletos
@@ -13,7 +15,20 @@ namespace ControleDeBoletos
     public partial class App : Application
     {
         private ServiceProvider serviceProvider;
-        private string _connectionString = "Data Source=database.db; Foreign Keys=true";
+        public static string DatabasePath { get; } = ResolveDatabasePath();
+
+        private static string ResolveDatabasePath()
+        {
+            // Honor the original database locations before choosing a writable default.
+            string workingDatabase = Path.GetFullPath("database.db");
+            if (File.Exists(workingDatabase)) return workingDatabase;
+
+            string applicationDatabase = Path.Combine(AppContext.BaseDirectory, "database.db");
+            if (File.Exists(applicationDatabase)) return applicationDatabase;
+
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "ControleDeBoletos", "database.db");
+        }
 
         public App()
         {
@@ -39,7 +54,11 @@ namespace ControleDeBoletos
         {
             services.AddDbContext<ControleBoletosContext>(options =>
             {
-                options.UseSqlite(_connectionString);
+                options.UseSqlite(new SqliteConnectionStringBuilder
+                {
+                    DataSource = DatabasePath,
+                    ForeignKeys = true
+                }.ToString());
             });
 
             services.AddSingleton<MainWindow>();
@@ -50,8 +69,18 @@ namespace ControleDeBoletos
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var mainWindow = serviceProvider.GetService<MainWindow>();
+            Directory.CreateDirectory(Path.GetDirectoryName(DatabasePath)!);
+            var context = serviceProvider.GetRequiredService<ControleBoletosContext>();
+            context.Database.EnsureCreated();
+
+            var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            serviceProvider.Dispose();
+            base.OnExit(e);
         }
     }
 }

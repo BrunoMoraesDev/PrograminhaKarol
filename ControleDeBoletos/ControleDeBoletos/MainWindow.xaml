@@ -1,52 +1,161 @@
-﻿<Window x:Class="ControleDeBoletos.MainWindow"
+<Window x:Class="ControleDeBoletos.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="619" Width="1498">
-    <Grid>
+        xmlns:local="clr-namespace:ControleDeBoletos.Controls"
+        Title="Controle de Boletos" Width="1180" Height="760" MinWidth="480" MinHeight="420"
+        WindowStartupLocation="CenterScreen" Background="#F4F6F8" FontSize="14">
+    <Window.Resources>
+        <Style x:Key="ResponsiveTextBox" TargetType="TextBox">
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="ResponsiveComboBox" TargetType="ComboBox">
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="ResponsiveDatePicker" TargetType="DatePicker">
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style x:Key="ResponsiveButton" TargetType="Button">
+            <Setter Property="MinHeight" Value="36"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="Margin" Value="0,4,12,4"/>
+        </Style>
+        <Style x:Key="ResponsiveLabel" TargetType="Label">
+            <Setter Property="Padding" Value="0,0,0,6"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <ContentPresenter Margin="{TemplateBinding Padding}" RecognizesAccessKey="True"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PageTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,18"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="Field" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,16,16"/>
+        </Style>
+        <Style x:Key="ResponsiveDataGrid" TargetType="DataGrid">
+            <Setter Property="MinColumnWidth" Value="95"/>
+            <Setter Property="RowHeight" Value="36"/>
+            <Setter Property="ColumnHeaderHeight" Value="38"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="AlternatingRowBackground" Value="#EDF1F5"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="16">
         <TabControl x:Name="tabControlMenu" SelectionChanged="tabControlMenu_SelectionChanged">
-            <TabItem x:Name="tabCadastroBoleto" Header="Cadastro e Edição de Boletos">
-                <Grid Background="#FFE5E5E5">
-                    <Label Content="Cadastro e Edição de Boletos" HorizontalAlignment="Center" Margin="0,29,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" Height="45" Width="318"/>
-                    <Label Content="Descrição/Empresa" HorizontalAlignment="Left" Margin="85,117,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="161"/>
-                    <Label Content="Tipo/Categoria" HorizontalAlignment="Left" Margin="85,194,0,0" VerticalAlignment="Top" Height="35" Width="112"/>
-                    <Label Content="Valor" HorizontalAlignment="Left" Margin="89,272,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="52"/>
-                    <TextBox x:Name="txtBoxDescricaoCadastroBoleto" HorizontalAlignment="Left" Margin="257,122,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="149" TabIndex="0" Height="24"/>
-                    <TextBox x:Name="txtBoxValorCadastroBoleto" HorizontalAlignment="Left" Margin="257,286,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="149" PreviewTextInput="txtBoxValorCadastroBoleto_PreviewTextInput" TabIndex="2" Height="23"/>
-                    <CheckBox x:Name="checkBoxSituacaoCadastroBoleto" Content="Preenchido = Pago" HorizontalAlignment="Left" Margin="257,368,0,0" VerticalAlignment="Top" Height="22" IsChecked="False" FontSize="14" TabIndex="3" Width="172"/>
-                    <Label Content="Situação" HorizontalAlignment="Left" Margin="89,359,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="79"/>
-                    <Button x:Name="btnSalvarCadastroBoleto" Content="Salvar" HorizontalAlignment="Center" Margin="0,444,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="59" Width="168" FontSize="18" Click="btnSalvarCadastroBoleto_Click" TabIndex="8">
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform AngleY="-0.005"/>
-                                <RotateTransform Angle="-0.037"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
-                    </Button>
-                    <Label Content="Emissão" HorizontalAlignment="Left" Margin="806,117,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="75"/>
-                    <Label Content="Vencimento" HorizontalAlignment="Left" Margin="806,194,0,0" VerticalAlignment="Top" FontSize="14" Height="39" Width="104"/>
-                    <DatePicker x:Name="datePickEmissaoCadastroBoleto" HorizontalAlignment="Left" Margin="941,119,0,0" VerticalAlignment="Top" TabIndex="4" Height="32" Width="174" KeyDown="DatePicker_KeyDown"/>
-                    <DatePicker x:Name="datePickVencimentoCadastroBoleto" HorizontalAlignment="Left" Margin="941,196,0,0" VerticalAlignment="Top" TabIndex="5" Height="32" Width="174" KeyDown="DatePicker_KeyDown"/>
-                    <ComboBox x:Name="comboBoxTipoCadastroBoleto" HorizontalAlignment="Left" Margin="257,203,0,0" VerticalAlignment="Top" Width="149" ItemsSource="{Binding TipoBoleto}" DisplayMemberPath="Descricao" TabIndex="1" Height="31"/>
-                    <ComboBox x:Name="comboBoxParcelaCadastroBoleto" HorizontalAlignment="Left" Margin="941,277,0,0" VerticalAlignment="Top" Width="174" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0" TabIndex="6" Height="29"/>
-                    <Label Content="Parcelas" HorizontalAlignment="Left" Margin="806,272,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="75"/>
-                    <Label Content="Nº de Parcelas" HorizontalAlignment="Left" Margin="803,353,0,0" VerticalAlignment="Top" FontSize="14" Height="38" Width="125"/>
-                    <TextBox x:Name="txtBoxNumeroParcelasCadastroBoleto" HorizontalAlignment="Left" Margin="941,362,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="174" TabIndex="7" Height="24"/>
-                </Grid>
+            <TabItem x:Name="tabCadastroBoleto" Header="Cadastro de boletos">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="20" MaxWidth="1000">
+                        <TextBlock Text="Cadastro e edição de boletos" Style="{StaticResource PageTitle}"/>
+                        <local:AdaptiveFormPanel MinColumnWidth="320" MaxColumns="2">
+                            <StackPanel Style="{StaticResource Field}">
+                                <Label Style="{StaticResource ResponsiveLabel}" Content="Descrição / empresa" Target="{Binding ElementName=txtBoxDescricaoCadastroBoleto}"/>
+                                <TextBox Style="{StaticResource ResponsiveTextBox}" x:Name="txtBoxDescricaoCadastroBoleto" TabIndex="0"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource Field}">
+                                <Label Style="{StaticResource ResponsiveLabel}" Content="Tipo / categoria" Target="{Binding ElementName=comboBoxTipoCadastroBoleto}"/>
+                                <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxTipoCadastroBoleto" DisplayMemberPath="Descricao" TabIndex="1"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource Field}">
+                                <Label Style="{StaticResource ResponsiveLabel}" Content="Valor (R$)" Target="{Binding ElementName=txtBoxValorCadastroBoleto}"/>
+                                <TextBox Style="{StaticResource ResponsiveTextBox}" x:Name="txtBoxValorCadastroBoleto" PreviewTextInput="txtBoxValorCadastroBoleto_PreviewTextInput" TabIndex="2"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource Field}">
+                                <Label Style="{StaticResource ResponsiveLabel}" Content="Situação"/>
+                                <CheckBox x:Name="checkBoxSituacaoCadastroBoleto" Content="Boleto pago" IsChecked="False" MinHeight="34" VerticalContentAlignment="Center" TabIndex="3"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource Field}">
+                                <Label Style="{StaticResource ResponsiveLabel}" Content="Emissão" Target="{Binding ElementName=datePickEmissaoCadastroBoleto}"/>
+                                <DatePicker Style="{StaticResource ResponsiveDatePicker}" x:Name="datePickEmissaoCadastroBoleto" KeyDown="DatePicker_KeyDown" TabIndex="4"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource Field}">
+                                <Label Style="{StaticResource ResponsiveLabel}" Content="Vencimento" Target="{Binding ElementName=datePickVencimentoCadastroBoleto}"/>
+                                <DatePicker Style="{StaticResource ResponsiveDatePicker}" x:Name="datePickVencimentoCadastroBoleto" KeyDown="DatePicker_KeyDown" TabIndex="5"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource Field}">
+                                <Label Style="{StaticResource ResponsiveLabel}" Content="Parcelas" Target="{Binding ElementName=comboBoxParcelaCadastroBoleto}"/>
+                                <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxParcelaCadastroBoleto" DisplayMemberPath="Descricao" SelectedIndex="0" TabIndex="6"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource Field}">
+                                <Label Style="{StaticResource ResponsiveLabel}" Content="Número de parcelas" Target="{Binding ElementName=txtBoxNumeroParcelasCadastroBoleto}"/>
+                                <TextBox Style="{StaticResource ResponsiveTextBox}" x:Name="txtBoxNumeroParcelasCadastroBoleto" TabIndex="7"/>
+                            </StackPanel>
+                        </local:AdaptiveFormPanel>
+                        <Button Style="{StaticResource ResponsiveButton}" x:Name="btnSalvarCadastroBoleto" Content="Salvar boleto" HorizontalAlignment="Left" MinWidth="160" Click="btnSalvarCadastroBoleto_Click" TabIndex="8"/>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
-            <TabItem x:Name="tabBuscaFiltroBoleto" Header="Busca e Filtragem de Boletos">
-                <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridBoletosFiltrados" Margin="0,133,0,53" AlternatingRowBackground="LightGray" CanUserAddRows="False" AutoGenerateColumns="False" CellEditEnding="dataGridBoletosFiltrados_CellEditEnding" SelectionChanged="dataGridBoletosFiltrados_SelectionChanged" ItemsSource="{Binding Boleto}">
+            <TabItem x:Name="tabBuscaFiltroBoleto" Header="Buscar boletos">
+                <Grid Margin="16" SizeChanged="SearchLayout_SizeChanged">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer x:Name="searchFiltersScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="250">
+                        <StackPanel>
+                            <TextBlock Text="Busca e filtragem de boletos" Style="{StaticResource PageTitle}"/>
+                            <WrapPanel>
+                                <StackPanel Style="{StaticResource Field}" Width="210">
+                                    <Label Style="{StaticResource ResponsiveLabel}" Content="Descrição" Target="{Binding ElementName=txtBoxFiltroDescricao}"/>
+                                    <TextBox Style="{StaticResource ResponsiveTextBox}" x:Name="txtBoxFiltroDescricao" KeyDown="txtBoxFiltroDescricao_KeyDown"/>
+                                </StackPanel>
+                                <StackPanel Style="{StaticResource Field}" Width="170">
+                                    <Label Style="{StaticResource ResponsiveLabel}" Content="Tipo / categoria"/>
+                                    <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxFiltroCategoria" DisplayMemberPath="Descricao"/>
+                                </StackPanel>
+                                <StackPanel Style="{StaticResource Field}" Width="140">
+                                    <Label Style="{StaticResource ResponsiveLabel}" Content="Situação"/>
+                                    <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxFiltroSituacao" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                                </StackPanel>
+                                <StackPanel Style="{StaticResource Field}" Width="250">
+                                    <Label Style="{StaticResource ResponsiveLabel}" Content="Emissão (dia / mês / ano)"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/><ColumnDefinition Width="1.4*"/></Grid.ColumnDefinitions>
+                                        <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxFiltroDiaEmissao" DisplayMemberPath="Descricao" SelectedIndex="0" Margin="0,0,6,0"/>
+                                        <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxFiltroMesEmissao" Grid.Column="1" DisplayMemberPath="Descricao" SelectedIndex="0" Margin="0,0,6,0"/>
+                                        <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxFiltroAnoEmissao" Grid.Column="2" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                                    </Grid>
+                                </StackPanel>
+                                <StackPanel Style="{StaticResource Field}" Width="250">
+                                    <Label Style="{StaticResource ResponsiveLabel}" Content="Vencimento (dia / mês / ano)"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/><ColumnDefinition Width="1.4*"/></Grid.ColumnDefinitions>
+                                        <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxFiltroDia" DisplayMemberPath="Descricao" SelectedIndex="0" Margin="0,0,6,0"/>
+                                        <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxFiltroMes" Grid.Column="1" DisplayMemberPath="Descricao" SelectedIndex="0" Margin="0,0,6,0"/>
+                                        <ComboBox Style="{StaticResource ResponsiveComboBox}" x:Name="comboBoxFiltroAno" Grid.Column="2" DisplayMemberPath="Descricao" SelectedIndex="0"/>
+                                    </Grid>
+                                </StackPanel>
+                                <Button Style="{StaticResource ResponsiveButton}" x:Name="btnBuscarBoletosFiltrados" Content="Buscar" MinWidth="100" VerticalAlignment="Bottom" Margin="0,0,0,16" Click="btnBuscarBoletosFiltrados_Click"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <DataGrid Style="{StaticResource ResponsiveDataGrid}" x:Name="dataGridBoletosFiltrados" Grid.Row="1" MinHeight="70"
+                              CellEditEnding="dataGridBoletosFiltrados_CellEditEnding" SelectionChanged="dataGridBoletosFiltrados_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Width="*" Binding="{Binding Id}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Tipo" Width="2*" Binding="{Binding Tipo, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Descrição" Width="4*" Binding="{Binding Descricao, UpdateSourceTrigger=PropertyChanged}" />
-                            <DataGridTextColumn Header="Valor" Width="2*" Binding="{Binding Valor, StringFormat=C2, ConverterCulture=pt-BR, UpdateSourceTrigger=PropertyChanged}" />
-                            <DataGridTemplateColumn Header="Emissão" Width="2*" SortMemberPath="Emissao">
+                            <DataGridTextColumn MinWidth="55" Header="Id" Width="*" Binding="{Binding Id}" IsReadOnly="True"/>
+                            <DataGridTextColumn MinWidth="110" Header="Tipo" Width="2*" Binding="{Binding Tipo, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn MinWidth="200" Header="Descrição" Width="4*" Binding="{Binding Descricao, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn MinWidth="110" Header="Valor" Width="2*" Binding="{Binding Valor, StringFormat=C2, ConverterCulture=pt-BR, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTemplateColumn MinWidth="110" Header="Emissão" Width="2*" SortMemberPath="Emissao">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Emissao, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" />
@@ -54,11 +163,11 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <DatePicker SelectedDate="{Binding Emissao, UpdateSourceTrigger=PropertyChanged}" />
+                                        <DatePicker Style="{StaticResource ResponsiveDatePicker}" SelectedDate="{Binding Emissao, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Vencimento" Width="2*" SortMemberPath="Vencimento">
+                            <DataGridTemplateColumn MinWidth="110" Header="Vencimento" Width="2*" SortMemberPath="Vencimento">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Vencimento, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" />
@@ -66,99 +175,89 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <DatePicker SelectedDate="{Binding Vencimento, UpdateSourceTrigger=PropertyChanged}" />
+                                        <DatePicker Style="{StaticResource ResponsiveDatePicker}" SelectedDate="{Binding Vencimento, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Dias Vencido" Width="2*" Binding="{Binding DiasVencido}" IsReadOnly="True">
+                            <DataGridTextColumn MinWidth="110" Header="Dias Vencido" Width="2*" Binding="{Binding DiasVencido}" IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="Red"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Situação" Width="*" Binding="{Binding Situacao, UpdateSourceTrigger=PropertyChanged}" />
-                            <DataGridTextColumn Header="Data de Cadastro" Width="2*" Binding="{Binding DataCadastro, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Última Alteração" Width="2*" Binding="{Binding DataAlteracao, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                            <DataGridCheckBoxColumn MinWidth="80" Header="Situação" Width="*" Binding="{Binding Situacao, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn MinWidth="140" Header="Data de Cadastro" Width="2*" Binding="{Binding DataCadastro, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                            <DataGridTextColumn MinWidth="140" Header="Última Alteração" Width="2*" Binding="{Binding DataAlteracao, UpdateSourceTrigger=PropertyChanged, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Label Content="Mês" HorizontalAlignment="Left" Margin="828,38,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label Content="Dia" HorizontalAlignment="Left" Margin="676,35,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label Content="Ano" HorizontalAlignment="Left" Margin="995,31,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <ComboBox x:Name="comboBoxFiltroDia" HorizontalAlignment="Left" Margin="631,101,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <ComboBox x:Name="comboBoxFiltroMes" HorizontalAlignment="Left" Margin="792,104,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <ComboBox x:Name="comboBoxFiltroAno" HorizontalAlignment="Left" Margin="953,99,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <Label Content="/" HorizontalAlignment="Left" Margin="917,102,0,0" VerticalAlignment="Top" FontSize="22"/>
-                    <Label Content="/" HorizontalAlignment="Left" Margin="756,99,0,0" VerticalAlignment="Top" FontSize="22"/>
-                    <Label Content="Situação" HorizontalAlignment="Left" Margin="404,66,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <ComboBox x:Name="comboBoxFiltroSituacao" HorizontalAlignment="Left" Margin="381,101,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <TextBox x:Name="txtBoxFiltroDescricao" KeyDown="txtBoxFiltroDescricao_KeyDown" HorizontalAlignment="Left" Margin="21,98,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193" Height="24"/>
-                    <Label Content="Busca de Boletos" HorizontalAlignment="Left" Margin="676,3,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" Height="35"/>
-                    <Label Content="Descrição" HorizontalAlignment="Left" Margin="77,66,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label x:Name="labelSomaTotal" Content="Soma total :" HorizontalAlignment="Left" Margin="161,0,0,8" VerticalAlignment="Bottom" Width="93" FontSize="16"/>
-                    <Label x:Name="labelSomaAPagar" Content="Soma a pagar :" HorizontalAlignment="Left" Margin="405,0,0,10" VerticalAlignment="Bottom" FontSize="16"/>
-                    <TextBlock x:Name="txtBlockSomaTotal" HorizontalAlignment="Left" Margin="254,0,0,8" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="141" FontSize="16"/>
-                    <TextBlock x:Name="txtBlockSomaAPagar" HorizontalAlignment="Left" Margin="539,0,0,10" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="132" FontSize="16"/>
-                    <Label x:Name="labelSomaVencida" Content="Soma vencida :" HorizontalAlignment="Left" Margin="664,0,0,8" VerticalAlignment="Bottom" FontSize="16"/>
-                    <TextBlock x:Name="txtBlockSomaVencida" HorizontalAlignment="Left" Margin="797,0,0,10" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="119" FontSize="16"/>
-                    <Button x:Name="btnBuscarBoletosFiltrados" Content="Buscar" HorizontalAlignment="Left" Margin="1152,72,0,0" VerticalAlignment="Top" Width="120" Height="57" FontSize="24" Click="btnBuscarBoletosFiltrados_Click"/>
-                    <Button x:Name="btnSalvarAlteracoesBoletosFiltrados" Content="Salvar Alterações" HorizontalAlignment="Right" Margin="0,0,53,5" VerticalAlignment="Bottom" Height="44" Width="161" FontSize="18" Click="btnSalvarAlteracoesBoletosFiltrados_Click"/>
-                    <Button x:Name="btnApagarBoletosFiltradosSelecionados" Content="Apagar Selecionados" HorizontalAlignment="Left" Margin="10,0,0,4" VerticalAlignment="Bottom" Height="42" Width="146" FontSize="14" Click="btnApagarBoletosFiltradosSelecionados_Click"/>
-                    <ComboBox x:Name="comboBoxFiltroDiaEmissao" HorizontalAlignment="Left" Margin="631,70,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <ComboBox x:Name="comboBoxFiltroMesEmissao" HorizontalAlignment="Left" Margin="792,68,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <ComboBox x:Name="comboBoxFiltroAnoEmissao" HorizontalAlignment="Left" Margin="953,65,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao" SelectedIndex="0"/>
-                    <Label Content="/" HorizontalAlignment="Left" Margin="756,68,0,0" VerticalAlignment="Top" FontSize="22"/>
-                    <Label Content="/" HorizontalAlignment="Left" Margin="917,65,0,0" VerticalAlignment="Top" FontSize="22"/>
-                    <Label Content="Emissão" HorizontalAlignment="Left" Margin="554,66,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label Content="Vencimento" HorizontalAlignment="Left" Margin="531,102,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label x:Name="labelSomaSelecionada" Content="Soma selecionada:" HorizontalAlignment="Left" Margin="921,0,0,8" VerticalAlignment="Bottom" FontSize="16"/>
-                    <TextBlock x:Name="txtBlockSomaSelecionada" HorizontalAlignment="Left" Margin="1078,0,0,10" TextWrapping="Wrap" Text="-----" VerticalAlignment="Bottom" Width="119" FontSize="16"/>
-                    <Label Content="Tipo/Categoria" HorizontalAlignment="Left" Margin="234,68,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <ComboBox x:Name="comboBoxFiltroCategoria" HorizontalAlignment="Left" Margin="234,101,0,0" VerticalAlignment="Top" Width="114" ItemsSource="{Binding ItemComboBox}" DisplayMemberPath="Descricao"/>
+                    <ScrollViewer x:Name="searchSummaryScroll" Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="150">
+                        <StackPanel Margin="0,12,0,0">
+                            <WrapPanel>
+                                <Button Style="{StaticResource ResponsiveButton}" x:Name="btnApagarBoletosFiltradosSelecionados" Content="Apagar selecionados" Click="btnApagarBoletosFiltradosSelecionados_Click"/>
+                                <Button Style="{StaticResource ResponsiveButton}" x:Name="btnSalvarAlteracoesBoletosFiltrados" Content="Salvar alterações" Click="btnSalvarAlteracoesBoletosFiltrados_Click"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,20,8"><Label Style="{StaticResource ResponsiveLabel}" x:Name="labelSomaTotal" Content="Soma total: "/><TextBlock x:Name="txtBlockSomaTotal" Text="-----"/></StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,20,8"><Label Style="{StaticResource ResponsiveLabel}" x:Name="labelSomaAPagar" Content="A pagar: "/><TextBlock x:Name="txtBlockSomaAPagar" Text="-----"/></StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,20,8"><Label Style="{StaticResource ResponsiveLabel}" x:Name="labelSomaVencida" Content="Vencida: "/><TextBlock x:Name="txtBlockSomaVencida" Text="-----"/></StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,20,8"><Label Style="{StaticResource ResponsiveLabel}" x:Name="labelSomaSelecionada" Content="Selecionada: "/><TextBlock x:Name="txtBlockSomaSelecionada" Text="-----"/></StackPanel>
+                            </WrapPanel>
+
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabCadastroCategoriaBoleto" HorizontalAlignment="Center" Height="20" Header="Cadastro de Categoria de Boleto" VerticalAlignment="Top" Width="185" Margin="0,-1,0,0">
-                <Grid Background="#FFE5E5E5">
-                    <Label Content="Nome da nova categoria:" HorizontalAlignment="Left" Margin="39,98,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="txtBoxNomeCadastroCategoria" HorizontalAlignment="Left" Margin="208,98,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="164" Height="22"/>
-                    <Button x:Name="btnCadastrarCategoria" Content="Cadastrar" HorizontalAlignment="Left" Margin="148,153,0,0" VerticalAlignment="Top" Height="32" Width="121" Click="btnCadastrarCategoria_Click"/>
-                    <Label Content="Cadastro de Nova Categoria" HorizontalAlignment="Left" Margin="111,47,0,0" VerticalAlignment="Top" Width="168" FontWeight="Bold"/>
-                    <ListBox x:Name="listBoxQuadroCategoria" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="397,20,39,156">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding Descricao}" FontSize="20"/>
-                                </WrapPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button x:Name="btnAtualizarQuadroCategoria" Content="Mostrar categorias / Atualizar" Margin="0,467,0,0" VerticalAlignment="Top" Height="39" Width="228" Click="btnAtualizarQuadroCategoria_Click" FontSize="14"/>
+            <TabItem x:Name="tabCadastroCategoriaBoleto" Header="Categorias">
+                <Grid Margin="20" SizeChanged="AdaptiveSections_SizeChanged">
+                    <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="2*"/></Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions><RowDefinition/><RowDefinition Height="0"/></Grid.RowDefinitions>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,16,16">
+                        <StackPanel>
+                            <TextBlock Text="Nova categoria" Style="{StaticResource PageTitle}"/>
+                            <Label Style="{StaticResource ResponsiveLabel}" Content="Nome da categoria" Target="{Binding ElementName=txtBoxNomeCadastroCategoria}"/>
+                            <TextBox Style="{StaticResource ResponsiveTextBox}" x:Name="txtBoxNomeCadastroCategoria"/>
+                            <Button Style="{StaticResource ResponsiveButton}" x:Name="btnCadastrarCategoria" Content="Cadastrar" HorizontalAlignment="Left" Margin="0,12,0,0" Click="btnCadastrarCategoria_Click"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                        <TextBlock Text="Categorias cadastradas" Style="{StaticResource PageTitle}"/>
+                        <ListBox x:Name="listBoxQuadroCategoria" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Descricao}" TextWrapping="Wrap" Margin="8"/></DataTemplate></ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Style="{StaticResource ResponsiveButton}" x:Name="btnAtualizarQuadroCategoria" Grid.Row="2" Content="Mostrar categorias / atualizar" HorizontalAlignment="Left" Click="btnAtualizarQuadroCategoria_Click"/>
+                    </Grid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabTotalPorPeriodo" HorizontalAlignment="Center" Height="20" Header="Total por período" VerticalAlignment="Top" Width="185" Margin="0,-1,0,0">
-                <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dataGridTotalPorPeriodo" d:ItemsSource="{d:SampleData ItemCount=5}" AlternatingRowBackground="LightGray" CanUserAddRows="False" AutoGenerateColumns="False" Margin="791,150,10,10">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Data de Vencimento" Width="*" Binding="{Binding DataVencimento, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Total" Width="*" Binding="{Binding ValorTotal, StringFormat=C2, ConverterCulture=pt-BR}" IsReadOnly="True"/>
+            <TabItem x:Name="tabTotalPorPeriodo" Header="Total por período">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+                    <Label Style="{StaticResource ResponsiveLabel}" x:Name="labelTotalPorPeriodo" Content="Total por período" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <WrapPanel Grid.Row="1">
+                        <StackPanel Style="{StaticResource Field}" Width="180"><Label Style="{StaticResource ResponsiveLabel}" Content="Data inicial"/><DatePicker Style="{StaticResource ResponsiveDatePicker}" x:Name="datePickDataInicialTotalPorPeriodo" KeyDown="DatePicker_KeyDown"/></StackPanel>
+                        <StackPanel Style="{StaticResource Field}" Width="180"><Label Style="{StaticResource ResponsiveLabel}" Content="Data final"/><DatePicker Style="{StaticResource ResponsiveDatePicker}" x:Name="datePickDataFinalTotalPorPeriodo" KeyDown="DatePicker_KeyDown"/></StackPanel>
+                        <Button Style="{StaticResource ResponsiveButton}" x:Name="btnBuscarTotalPorPeriodo" Content="Buscar" MinWidth="100" VerticalAlignment="Bottom" Margin="0,0,0,16" Click="btnBuscarTotalPorPeriodo_Click"/>
+                    </WrapPanel>
+                    <Grid Grid.Row="2" SizeChanged="AdaptiveSections_SizeChanged">
+                        <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="2*"/></Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions><RowDefinition/><RowDefinition Height="0"/></Grid.RowDefinitions>
+                        <Grid Margin="0,0,16,16">
+                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+                            <Label Style="{StaticResource ResponsiveLabel}" Content="Categorias incluídas"/>
+                            <ListBox x:Name="listBoxTotalPorPeriodo" Grid.Row="1" SelectionMode="Multiple" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListBox.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding EstaSelecionado, Mode=TwoWay}"><TextBlock Text="{Binding Descricao}" TextWrapping="Wrap"/></CheckBox></DataTemplate></ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                        <DataGrid Style="{StaticResource ResponsiveDataGrid}" x:Name="dataGridTotalPorPeriodo" Grid.Column="1" IsReadOnly="True">
+                            <DataGrid.Columns>
+                            <DataGridTextColumn MinWidth="110" Header="Data de Vencimento" Width="*" Binding="{Binding DataVencimento, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                            <DataGridTextColumn MinWidth="110" Header="Total" Width="*" Binding="{Binding ValorTotal, StringFormat=C2, ConverterCulture=pt-BR}" IsReadOnly="True"/>
                         </DataGrid.Columns>
-                    </DataGrid>
-                    <Label Content="Data inicial" HorizontalAlignment="Left" Margin="949,42,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Label Content="Data final" HorizontalAlignment="Left" Margin="1136,42,0,0" VerticalAlignment="Top" FontSize="14"/>
-                    <Button x:Name="btnBuscarTotalPorPeriodo" Content="Buscar" HorizontalAlignment="Left" Margin="1300,66,0,0" VerticalAlignment="Top" Height="56" Width="126" Click="btnBuscarTotalPorPeriodo_Click"/>
-                    <ListBox x:Name="listBoxTotalPorPeriodo" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionMode="Multiple" Margin="554,150,746,10">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding EstaSelecionado, Mode=TwoWay}" Content="{Binding Descricao}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Label x:Name="labelTotalPorPeriodo" Content="Total por Período&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,9,0,0" VerticalAlignment="Top" Height="53" FontSize="24" FontWeight="Bold"/>
-                    <DatePicker x:Name="datePickDataInicialTotalPorPeriodo" HorizontalAlignment="Left" Margin="919,82,0,0" VerticalAlignment="Top" KeyDown="DatePicker_KeyDown" Width="150"/>
-                    <DatePicker x:Name="datePickDataFinalTotalPorPeriodo" HorizontalAlignment="Left" Margin="1102,82,0,0" VerticalAlignment="Top" KeyDown="DatePicker_KeyDown" Width="148"/>
+                        </DataGrid>
+                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Grid>
 </Window>
